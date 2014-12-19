@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<robot>
+
+  <gazebo>
+    <plugin name="gazebo_ros_controller" filename="libgazebo_ros_control.so" />
+  </gazebo>
+
+</robot>

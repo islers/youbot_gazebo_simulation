@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<launch>
+
+  <arg name="arm_name" default="arm_1"/>
+
+  <!-- upload arm and gripper controller parameters -->
+  <rosparam file="$(find youbot_control)/config/$(arg arm_name)_controller.yaml" command="load" ns="$(arg arm_name)"/>
+ 
+  <!-- spawn arm controller -->
+  <!--<remap from="$(arg arm_name)/arm_controller/command" to="$(arg arm_name)/arm_controller/position_command"/>-->
+  <rosparam file="$(find youbot_control)/config/$(arg arm_name)_controller.yaml" command="load" ns="$(arg arm_name)"/>
+  <node pkg="controller_manager" type="spawner" name="$(arg arm_name)_joint_1_controller_spawner"  args="$(arg arm_name)/arm_controller/joint_1" respawn="false" output="screen" />
+  <node pkg="controller_manager" type="spawner" name="$(arg arm_name)_joint_2_controller_spawner"  args="$(arg arm_name)/arm_controller/joint_2" respawn="false" output="screen" />
+  <node pkg="controller_manager" type="spawner" name="$(arg arm_name)_joint_3_controller_spawner"  args="$(arg arm_name)/arm_controller/joint_3" respawn="false" output="screen" />
+  <node pkg="controller_manager" type="spawner" name="$(arg arm_name)_joint_4_controller_spawner"  args="$(arg arm_name)/arm_controller/joint_4" respawn="false" output="screen" />
+  <node pkg="controller_manager" type="spawner" name="$(arg arm_name)_joint_5_controller_spawner"  args="$(arg arm_name)/arm_controller/joint_5" respawn="false" output="screen" />
+  
+  <!--<param name="publish_frequency" type="double" value="50.0" />
+  <rosparam file="$(find youbot_control)/controller/arm_joint_universal_control.yaml" command="load" ns="$(arg arm_name)"/>
+  <node name="$(arg arm_name)_arm_controller_spawner" pkg="pr2_controller_manager" type="spawner" args="$(arg arm_name)/arm_controller" respawn="false" output="screen">
+	  
+  </node>-->
+  
+  
+  <!-- spawn gripper controller -->
+  <!--<node pkg="controller_manager" type="spawner" name="$(arg arm_name)_gripper_controller_spawner"  args="$(arg arm_name)/gripper_controller" respawn="false" output="screen" />-->
+  
+  <!-- spawn the brics actuator listener for conversion from brics actuator JointPositions commands -->
+  <node name="ba_listener" pkg="youbot_control" type="ba_jointposition_listener" respawn="false"/>
+ 
+</launch>

@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<launch>	  
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">	    
+	    <arg name="world_name" value="$(find youbot_gazebo)/worlds/sim_1.world"/>	    
+	    <arg name="gui" value="true"/>	  
+    </include>
+
+    <!-- urdf xml robot description loaded on the Parameter Server, converting the xacro into a proper urdf file-->
+    <param name="robot_description" command="$(find xacro)/xacro.py $(find yb_description)/urdf/youbot.urdf.xacro" />
+
+    <!-- push robot_description to factory and spawn robot in gazebo -->
+    <node pkg="gazebo_ros" type="spawn_model" name="spawn_robot" respawn="false" output="screen"
+    args="-param robot_description
+          -urdf
+          -x 0
+          -y 0
+          -z 0
+          -model youbot">
+    </node>
+    	
+    
+    <!-- launch joint state controller -->
+    <include file="$(find youbot_control)/launch/joint_state_controller.launch" />
+    
+    
+    <!-- launch arm and gripper controller -->
+    <include file="$(find youbot_control)/launch/arm_controller.launch" />
+
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+      <param name="publish_frequency" type="double" value="100.0" />
+    </node>
+  
+</launch>
