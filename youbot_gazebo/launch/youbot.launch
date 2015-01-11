@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<launch>	  
+<launch>
+  <!-- loads gazebo and a simulation environment -->
     <include file="$(find gazebo_ros)/launch/empty_world.launch">	    
 	    <arg name="world_name" value="$(find youbot_gazebo)/worlds/sim_1.world"/>	    
 	    <arg name="gui" value="true"/>	  
